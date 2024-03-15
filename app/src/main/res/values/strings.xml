@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">CountryGuesser</string>
     <string name="title_activity_guess_country">GuessCountry</string>
+    <string name="guess_country">"Country Guesser"</string>
+    <string name="home_title">Country Guesser"</string>
+    <string name="guess_hints">Guess-Hints</string>
+    <string name="guess_flag">Guess the Flag</string>
+    <string name="advanced_level">Advanced Level</string>
+    <string name="timer">Timer</string>
+
+
 </resources>

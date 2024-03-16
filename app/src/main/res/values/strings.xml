@@ -8,6 +8,9 @@
     <string name="advanced_level">Advanced Level</string>
     <string name="timer">Timer</string>
     <string name="title_activity_home">Home</string>
+    <string name="guess_which_country">Guess which country this is!</string>
+    <string name="flag_caption">image of a country</string>
+    <string name="submit">Submit</string>
 
 
 </resources>

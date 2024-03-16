@@ -7,6 +7,7 @@
     <string name="guess_flag">Guess the Flag</string>
     <string name="advanced_level">Advanced Level</string>
     <string name="timer">Timer</string>
+    <string name="title_activity_home">Home</string>
 
 
 </resources>

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -81,5 +82,22 @@ fun ResultText(result: Result, modifier: Modifier = Modifier, answer: String = "
                 fontSize = 18.sp,
             )
         }
+    }
+}
+
+@Composable
+fun SubmitNextButton(result: Result, onClickSubmit: () -> Unit, onClickNext: () -> Unit,modifier: Modifier = Modifier) {
+    val buttonString = when (result) {
+        Result.Ongoing -> stringResource(id = R.string.submit)
+        else -> stringResource(id = R.string.next)
+    }
+
+    val buttonAction = when(result) {
+        Result.Ongoing -> onClickSubmit
+        else -> onClickNext
+    }
+    
+    Button(onClick = buttonAction) {
+        Text(text = buttonString)
     }
 }

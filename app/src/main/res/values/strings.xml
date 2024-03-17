@@ -14,4 +14,5 @@
     <string name="correct">CORRECT!</string>
     <string name="wrong">WRONG!</string>
     <string name="answer_was">Answer is $answer</string>
+    <string name="next">Next</string>
 </resources>

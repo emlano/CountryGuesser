@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -34,7 +33,7 @@ import com.github.emlano.countryguesser.Result
 @Composable
 fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
     var selected by remember { mutableIntStateOf(0) }
-    var isAnswerCorrect by remember { mutableStateOf(Result.Ongoing) }
+    var isAnswerCorrect by remember { mutableStateOf(Result.Correct) }
     var countryName by remember { mutableStateOf("United States of America") }
 
     Column(
@@ -80,8 +79,6 @@ fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
             }
         }
         ResultText(result = isAnswerCorrect, answer = countryName)
-        Button(onClick = { /*TODO*/ }) {
-            Text(text = stringResource(id = R.string.submit))
-        }
+        SubmitNextButton(result = isAnswerCorrect, onClickSubmit = {  }, onClickNext = {  })
     }
 }

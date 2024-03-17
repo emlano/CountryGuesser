@@ -13,8 +13,8 @@ Create an application which requests the user to guess an country based on a fla
 * Country flag images, and country codes can be sourced from [this repository](https://github.com/hjnilsson/country-flags).
 
 ## Requirements
-- [ ] **[Home](#home-page)** Page.
-- [ ] **[Guess the Country](#country-page)** Page.
+- [x] **[Home](#home-page)** Page.
+- [x] **[Guess the Country](#country-page)** Page.
 - [ ] **[Guess-Hints](#hints-page)** Page.
 - [ ] **[Guess the Flag](#flag-page)** Page.
 - [ ] **[Advanced Level](#advanced-page)** Page.

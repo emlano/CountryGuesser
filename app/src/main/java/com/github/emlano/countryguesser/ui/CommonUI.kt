@@ -84,7 +84,7 @@ fun ResultText(result: Result, modifier: Modifier = Modifier, answer: String = "
         if (result == Result.Wrong) {
             Text(
                 text = answer,
-                color = color,
+                color = MaterialTheme.colorScheme.onSecondary,
                 textAlign = TextAlign.Center,
                 fontSize = 18.sp,
             )

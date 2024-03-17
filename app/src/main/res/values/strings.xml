@@ -8,11 +8,11 @@
     <string name="advanced_level">Advanced Level</string>
     <string name="timer">Timer</string>
     <string name="title_activity_home">Home</string>
-    <string name="guess_which_country">Guess which country this is!</string>
+    <string name="guess_which_country">Guess this Country!</string>
     <string name="flag_caption">image of a country</string>
     <string name="submit">Submit</string>
     <string name="correct">CORRECT!</string>
     <string name="wrong">WRONG!</string>
-    <string name="answer_was">Answer is $answer</string>
+    <string name="answer_was">Answer is $answer\</string>
     <string name="next">Next</string>
 </resources>

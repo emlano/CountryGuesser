@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -28,10 +29,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.github.emlano.countryguesser.R
+import com.github.emlano.countryguesser.Result
 
 @Composable
 fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
     var selected by remember { mutableIntStateOf(0) }
+    var isAnswerCorrect by remember { mutableStateOf(Result.Ongoing) }
+    var countryName by remember { mutableStateOf("United States of America") }
 
     Column(
         modifier = modifier.fillMaxSize(),
@@ -75,14 +79,7 @@ fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
                 }
             }
         }
-        Text(
-            text = "CORRECT!",
-            color = MaterialTheme.colorScheme.onError,
-            textAlign = TextAlign.Center,
-            fontSize = 25.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = modifier.padding(30.dp)
-        )
+        ResultText(result = isAnswerCorrect, answer = countryName)
         Button(onClick = { /*TODO*/ }) {
             Text(text = stringResource(id = R.string.submit))
         }

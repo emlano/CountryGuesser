@@ -27,6 +27,12 @@ sealed class Screen(val route: String) {
     }
 }
 
+enum class Result() {
+    Correct,
+    Wrong,
+    Ongoing,
+}
+
 @Composable
 fun GuesserApp(
     navController: NavHostController = rememberNavController()

@@ -2,9 +2,14 @@ package com.github.emlano.countryguesser.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -26,7 +31,7 @@ import com.github.emlano.countryguesser.Result
 @Composable
 fun FlagHero(resource: Int, modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier.padding(50.dp)
+        modifier = modifier.padding(40.dp).safeContentPadding()
     ) {
         Image(
             painter = painterResource(id = resource),
@@ -63,16 +68,18 @@ fun ResultText(result: Result, modifier: Modifier = Modifier, answer: String = "
     }
 
     Column(
-        modifier.padding(30.dp),
+        modifier.padding(25.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = resultString,
-            color = color,
-            textAlign = TextAlign.Center,
-            fontSize = 25.sp,
-            fontWeight = FontWeight.Bold,
-        )
+        if (result != Result.Ongoing) {
+            Text(
+                text = resultString,
+                color = color,
+                textAlign = TextAlign.Center,
+                fontSize = 25.sp,
+                fontWeight = FontWeight.Bold,
+            )
+        }
 
         if (result == Result.Wrong) {
             Text(
@@ -86,7 +93,7 @@ fun ResultText(result: Result, modifier: Modifier = Modifier, answer: String = "
 }
 
 @Composable
-fun SubmitNextButton(result: Result, onClickSubmit: () -> Unit, onClickNext: () -> Unit,modifier: Modifier = Modifier) {
+fun SubmitNextButton(result: Result, onClickSubmit: () -> Unit, onClickNext: () -> Unit, modifier: Modifier = Modifier) {
     val buttonString = when (result) {
         Result.Ongoing -> stringResource(id = R.string.submit)
         else -> stringResource(id = R.string.next)
@@ -97,7 +104,15 @@ fun SubmitNextButton(result: Result, onClickSubmit: () -> Unit, onClickNext: () 
         else -> onClickNext
     }
     
-    Button(onClick = buttonAction) {
-        Text(text = buttonString)
+    Button(
+        onClick = buttonAction,
+        contentPadding = PaddingValues(horizontal = 35.dp, vertical = 10.dp),
+        modifier = modifier.padding(20.dp)
+
+    ) {
+        Text(
+            text = buttonString,
+            fontSize = 16.sp
+        )
     }
 }

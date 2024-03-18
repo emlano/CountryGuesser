@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,7 +33,9 @@ import com.github.emlano.countryguesser.Result
 @Composable
 fun FlagHero(resource: Int, modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier.padding(40.dp).safeContentPadding()
+        modifier = modifier
+            .padding(40.dp)
+            .safeContentPadding()
     ) {
         Image(
             painter = painterResource(id = resource),

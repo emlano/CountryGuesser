@@ -2,20 +2,16 @@ package com.github.emlano.countryguesser.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,7 +27,7 @@ import com.github.emlano.countryguesser.R
 import com.github.emlano.countryguesser.Result
 
 @Composable
-fun FlagHero(resource: Int, modifier: Modifier = Modifier) {
+fun FlagHero(resource: Int, clickable: Boolean = false, onClick: () -> Unit = {}, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .padding(40.dp)
@@ -47,6 +43,10 @@ fun FlagHero(resource: Int, modifier: Modifier = Modifier) {
                     width = 2.dp,
                     color = MaterialTheme.colorScheme.primary,
                     shape = RoundedCornerShape(15.dp)
+                )
+                .clickable(
+                    enabled = clickable,
+                    onClick = onClick
                 )
         )
     }
@@ -84,11 +84,11 @@ fun ResultText(result: Result, modifier: Modifier = Modifier, answer: String = "
         Result.Ongoing -> MaterialTheme.colorScheme.surface
     }
 
-    Column(
-        modifier.padding(25.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        if (result != Result.Ongoing) {
+    if (result != Result.Ongoing) {
+        Column(
+            modifier.padding(top = 25.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(
                 text = resultString,
                 color = color,
@@ -96,15 +96,15 @@ fun ResultText(result: Result, modifier: Modifier = Modifier, answer: String = "
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
             )
-        }
 
-        if (result == Result.Wrong) {
-            Text(
-                text = answer,
-                color = MaterialTheme.colorScheme.onSecondary,
-                textAlign = TextAlign.Center,
-                fontSize = 18.sp,
-            )
+            if (result == Result.Wrong) {
+                Text(
+                    text = answer,
+                    color = MaterialTheme.colorScheme.onSecondary,
+                    textAlign = TextAlign.Center,
+                    fontSize = 18.sp,
+                )
+            }
         }
     }
 }

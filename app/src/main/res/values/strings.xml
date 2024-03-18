@@ -8,7 +8,8 @@
     <string name="advanced_level">Advanced Level</string>
     <string name="timer">Timer</string>
     <string name="title_activity_home">Home</string>
-    <string name="guess_which_country">Guess this Country!</string>
+    <string name="guess_which_country">Guess the Country!</string>
+    <string name="guess_which_flag">Guess the Flag!</string>
     <string name="flag_caption">image of a country</string>
     <string name="submit">Submit</string>
     <string name="correct">CORRECT!</string>

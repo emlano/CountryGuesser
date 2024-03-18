@@ -58,15 +58,7 @@ fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = stringResource(id = R.string.guess_which_country),
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            fontSize = 26.sp,
-            softWrap = true,
-            modifier = modifier.padding(20.dp)
-        )
+        HeaderText(text = R.string.guess_which_country)
         FlagHero(randomCountryFlag)
         Box(
             modifier = modifier

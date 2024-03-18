@@ -49,6 +49,19 @@ fun FlagHero(resource: Int, modifier: Modifier = Modifier) {
 }
 
 @Composable
+fun HeaderText(text: Int, modifier: Modifier = Modifier) {
+    Text(
+        text = stringResource(id = text),
+        textAlign = TextAlign.Center,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.primary,
+        fontSize = 26.sp,
+        softWrap = true,
+        modifier = modifier.padding(20.dp)
+    )
+}
+
+@Composable
 fun ResultText(result: Result, modifier: Modifier = Modifier, answer: String = "") {
     val resultString = when(result) {
         Result.Correct -> stringResource(id = R.string.correct)

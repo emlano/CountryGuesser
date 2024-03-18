@@ -1,5 +1,6 @@
 package com.github.emlano.countryguesser.ui
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -34,12 +37,15 @@ fun Home(
     modifier: Modifier = Modifier
 ) {
     var timerEnabled by remember { mutableStateOf(false) }
+    val state = rememberScrollState()
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(40.dp),
+            .padding(40.dp)
+            .verticalScroll(state),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Text(
             text = stringResource(id = R.string.home_title),
@@ -48,59 +54,59 @@ fun Home(
             fontWeight = FontWeight.ExtraBold,
             color = MaterialTheme.colorScheme.primary
         )
-    }
-    Column(
-        modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Button(onClick = {
-            navController.navigate(
-                route = Screen.Country.passSwitch(timerEnabled)
-            )
-        }) {
-            Text(text = stringResource(id = R.string.guess_country))
-        }
-        Spacer(modifier = modifier.height(14.dp))
-        Button(onClick = {
-            navController.navigate(
-                route = Screen.Hints.passSwitch(timerEnabled),
-            )
-        }) {
-            Text(text = stringResource(id = R.string.guess_hints))
-        }
-        Spacer(modifier = modifier.height(14.dp))
-        Button(onClick = {
-            navController.navigate(
-                route = Screen.Flag.passSwitch(timerEnabled)
-            )
-        }) {
-            Text(text = stringResource(id = R.string.guess_flag))
-        }
-        Spacer(modifier = modifier.height(14.dp))
-        Button(onClick = {
-            navController.navigate(
-                route = Screen.Advanced.passSwitch(timerEnabled)
-            )
-        }) {
-            Text(text = stringResource(id = R.string.advanced_level))
-        }
-        Spacer(modifier = modifier.height(14.dp))
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+
+        Column(
+            modifier = modifier.fillMaxSize().padding(top = 25.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(id = R.string.timer),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = modifier.width(14.dp))
-            Switch(checked = timerEnabled, onCheckedChange = {
-                timerEnabled = !timerEnabled
-            })
+            Button(onClick = {
+                navController.navigate(
+                    route = Screen.Country.passSwitch(timerEnabled)
+                )
+            }) {
+                Text(text = stringResource(id = R.string.guess_country))
+            }
+            Spacer(modifier = modifier.height(14.dp))
+            Button(onClick = {
+                navController.navigate(
+                    route = Screen.Hints.passSwitch(timerEnabled),
+                )
+            }) {
+                Text(text = stringResource(id = R.string.guess_hints))
+            }
+            Spacer(modifier = modifier.height(14.dp))
+            Button(onClick = {
+                navController.navigate(
+                    route = Screen.Flag.passSwitch(timerEnabled)
+                )
+            }) {
+                Text(text = stringResource(id = R.string.guess_flag))
+            }
+            Spacer(modifier = modifier.height(14.dp))
+            Button(onClick = {
+                navController.navigate(
+                    route = Screen.Advanced.passSwitch(timerEnabled)
+                )
+            }) {
+                Text(text = stringResource(id = R.string.advanced_level))
+            }
+            Spacer(modifier = modifier.height(14.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = stringResource(id = R.string.timer),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = modifier.width(14.dp))
+                Switch(checked = timerEnabled, onCheckedChange = {
+                    timerEnabled = !timerEnabled
+                })
+            }
         }
     }
 }

@@ -111,11 +111,11 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
             result = isGuessCorrect,
             onClickSubmit = {
                 isCharacterInName = Result.Wrong
-                if (randomCountryName.contains(inputCharacter)){
+                if (randomCountryName.contains(inputCharacter, ignoreCase = true)){
                     randomCountryName.forEachIndexed { index, c ->
-                        if (c.toString() == inputCharacter) {
+                        if (c.toString().lowercase() == inputCharacter.lowercase()) {
                             val tempString = guessedName.toMutableList()
-                            tempString[index] = inputCharacter.first()
+                            tempString[index] = c
                             guessedName = tempString.joinToString("")
                             isCharacterInName = Result.Correct
                         }

@@ -88,9 +88,10 @@ fun GuessFlag(switch: Boolean, modifier: Modifier = Modifier) {
                         resource = getFlagIdFromCountryCode(countryList[0]),
                         clickable = true,
                         onClick = {
-                            if (correctCountryIndex == 0 && result == Result.Ongoing) {
-                                result = Result.Correct
-                            } else result = Result.Wrong
+                            if (result != Result.Ongoing) return@FlagHero
+                            result = if (correctCountryIndex == 0) {
+                                Result.Correct
+                            } else Result.Wrong
                         },
                         modifier = modifier,
                     )
@@ -98,9 +99,10 @@ fun GuessFlag(switch: Boolean, modifier: Modifier = Modifier) {
                         resource = getFlagIdFromCountryCode(countryList[1]),
                         clickable = true,
                         onClick = {
-                            if (correctCountryIndex == 1 && result == Result.Ongoing) {
-                                result = Result.Correct
-                            } else result = Result.Wrong
+                            if (result != Result.Ongoing) return@FlagHero
+                            result = if (correctCountryIndex == 1) {
+                                Result.Correct
+                            } else Result.Wrong
                         },
                         modifier = modifier,
                     )
@@ -108,9 +110,10 @@ fun GuessFlag(switch: Boolean, modifier: Modifier = Modifier) {
                         resource = getFlagIdFromCountryCode(countryList[2]),
                         clickable = true,
                         onClick = {
-                            if (correctCountryIndex == 2 && result == Result.Ongoing) {
-                                result = Result.Correct
-                            } else result = Result.Wrong
+                            if (result != Result.Ongoing) return@FlagHero
+                            result = if (correctCountryIndex == 2) {
+                                Result.Correct
+                            } else Result.Wrong
                         },
                         modifier = modifier,
                     )

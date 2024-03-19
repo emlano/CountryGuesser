@@ -76,7 +76,9 @@ fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        RadioButton(selected = it == selectedCountry, onClick = { selectedCountry = it })
+                        RadioButton(
+                            selected = it == selectedCountry,
+                            onClick = { selectedCountry = it })
                         Text(text = countryList[it])
                     }
                 }

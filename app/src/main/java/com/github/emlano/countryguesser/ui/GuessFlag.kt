@@ -4,13 +4,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -49,7 +45,7 @@ fun GuessFlag(switch: Boolean, modifier: Modifier = Modifier) {
 
     var correctCountryIndex = countryList.indexOf(randomCountryCode)
     var result by rememberSaveable { mutableStateOf(Result.Ongoing) }
-    
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -84,7 +80,7 @@ fun GuessFlag(switch: Boolean, modifier: Modifier = Modifier) {
                     shape = RoundedCornerShape(15.dp)
                 )
         ) {
-            LazyRow (
+            LazyRow(
                 modifier = modifier
             ) {
                 item {
@@ -131,7 +127,7 @@ fun GuessFlag(switch: Boolean, modifier: Modifier = Modifier) {
                 result = result,
                 onClickSubmit = {},
                 onClickNext = {
-                    countryList = List(3) { _ -> countries.keys.random()}
+                    countryList = List(3) { _ -> countries.keys.random() }
                     randomCountryCode = countryList.random()
                     result = Result.Ongoing
                 })
@@ -140,7 +136,7 @@ fun GuessFlag(switch: Boolean, modifier: Modifier = Modifier) {
 }
 
 fun formatAnswerString(flagIndex: Int): Int {
-    return when(flagIndex) {
+    return when (flagIndex) {
         0 -> R.string.first_flag
         1 -> R.string.second_flag
         else -> R.string.third_flag

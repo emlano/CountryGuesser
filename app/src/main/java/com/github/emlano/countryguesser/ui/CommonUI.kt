@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,8 +27,13 @@ import com.github.emlano.countryguesser.R
 import com.github.emlano.countryguesser.Result
 
 @Composable
-fun FlagHero(resource: Int, clickable: Boolean = false, onClick: () -> Unit = {}, modifier: Modifier = Modifier) {
-    Box (
+fun FlagHero(
+    resource: Int,
+    clickable: Boolean = false,
+    onClick: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    Box(
         modifier = modifier
             .padding(40.dp)
             .safeContentPadding()
@@ -68,18 +72,18 @@ fun HeaderText(text: Int, modifier: Modifier = Modifier) {
 
 @Composable
 fun ResultText(result: Result, modifier: Modifier = Modifier, answer: String = "") {
-    val resultString = when(result) {
+    val resultString = when (result) {
         Result.Correct -> stringResource(id = R.string.correct)
         Result.Wrong -> stringResource(id = R.string.wrong)
         Result.Ongoing -> ""
     }
 
-    val answer = when(result) {
+    val answer = when (result) {
         Result.Wrong -> stringResource(id = R.string.answer_was).replace("\$answer", answer)
         else -> ""
     }
 
-    val color = when(result) {
+    val color = when (result) {
         Result.Correct -> MaterialTheme.colorScheme.onError
         Result.Wrong -> MaterialTheme.colorScheme.error
         Result.Ongoing -> MaterialTheme.colorScheme.surface
@@ -111,17 +115,22 @@ fun ResultText(result: Result, modifier: Modifier = Modifier, answer: String = "
 }
 
 @Composable
-fun SubmitNextButton(result: Result, onClickSubmit: () -> Unit, onClickNext: () -> Unit, modifier: Modifier = Modifier) {
+fun SubmitNextButton(
+    result: Result,
+    onClickSubmit: () -> Unit,
+    onClickNext: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val buttonString = when (result) {
         Result.Ongoing -> stringResource(id = R.string.submit)
         else -> stringResource(id = R.string.next)
     }
 
-    val buttonAction = when(result) {
+    val buttonAction = when (result) {
         Result.Ongoing -> onClickSubmit
         else -> onClickNext
     }
-    
+
     Button(
         onClick = buttonAction,
         contentPadding = PaddingValues(horizontal = 35.dp, vertical = 10.dp),

@@ -36,7 +36,7 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
     val state = rememberScrollState()
 
     val countries = readJsonAsset(LocalContext.current)
-    var randomCountryCode by rememberSaveable{ mutableStateOf(countries.keys.random()) }
+    var randomCountryCode by rememberSaveable { mutableStateOf(countries.keys.random()) }
     var randomCountryName = countries.getValue(randomCountryCode)
     val randomCountryFlag = getFlagIdFromCountryCode(randomCountryCode)
 
@@ -71,7 +71,8 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
                 textAlign = TextAlign.Center,
                 fontSize = 23.sp,
                 softWrap = true,
-                modifier = modifier.padding(10.dp))
+                modifier = modifier.padding(10.dp)
+            )
         }
         Box(
             modifier = modifier
@@ -100,7 +101,7 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
             result = isGuessCorrect,
             onClickSubmit = {
                 isCharacterInName = Result.Wrong
-                if (randomCountryName.contains(inputCharacter, ignoreCase = true)){
+                if (randomCountryName.contains(inputCharacter, ignoreCase = true)) {
                     randomCountryName.forEachIndexed { index, c ->
                         if (c.toString().lowercase() == inputCharacter.lowercase()) {
                             val tempString = guessedName.toMutableList()

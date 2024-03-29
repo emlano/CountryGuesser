@@ -78,7 +78,7 @@ fun ResultText(result: Result, modifier: Modifier = Modifier, answer: String = "
         Result.Ongoing -> ""
     }
 
-    val answer = when (result) {
+    val formattedAnswer = when (result) {
         Result.Wrong -> stringResource(id = R.string.answer_was).replace("\$answer", answer)
         else -> ""
     }
@@ -102,9 +102,9 @@ fun ResultText(result: Result, modifier: Modifier = Modifier, answer: String = "
                 fontWeight = FontWeight.Bold,
             )
 
-            if (result == Result.Wrong) {
+            if (result == Result.Wrong && answer.isNotEmpty()) {
                 Text(
-                    text = answer,
+                    text = formattedAnswer,
                     color = MaterialTheme.colorScheme.onSecondary,
                     textAlign = TextAlign.Center,
                     fontSize = 18.sp,

@@ -1,5 +1,6 @@
 package com.github.emlano.countryguesser.ui
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,22 +22,21 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.github.emlano.countryguesser.R
-import com.github.emlano.countryguesser.Screen
 
 @Composable
 fun Home(
-    navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
     var timerEnabled by rememberSaveable { mutableStateOf(false) }
     val state = rememberScrollState()
+    val context = LocalContext.current
 
     Column(
         modifier = modifier
@@ -61,33 +61,33 @@ fun Home(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(onClick = {
-                navController.navigate(
-                    route = Screen.Country.passSwitch(timerEnabled)
-                )
+                val intent = Intent(context, GuessCountryActivity::class.java)
+                intent.putExtra("switch", timerEnabled)
+                context.startActivity(intent)
             }) {
                 Text(text = stringResource(id = R.string.guess_country))
             }
             Spacer(modifier = modifier.height(14.dp))
             Button(onClick = {
-                navController.navigate(
-                    route = Screen.Hints.passSwitch(timerEnabled),
-                )
+                val intent = Intent(context, GuessHintsActivity::class.java)
+                intent.putExtra("switch", timerEnabled)
+                context.startActivity(intent)
             }) {
                 Text(text = stringResource(id = R.string.guess_hints))
             }
             Spacer(modifier = modifier.height(14.dp))
             Button(onClick = {
-                navController.navigate(
-                    route = Screen.Flag.passSwitch(timerEnabled)
-                )
+                val intent = Intent(context, GuessFlagActivity::class.java)
+                intent.putExtra("switch", timerEnabled)
+                context.startActivity(intent)
             }) {
                 Text(text = stringResource(id = R.string.guess_flag))
             }
             Spacer(modifier = modifier.height(14.dp))
             Button(onClick = {
-                navController.navigate(
-                    route = Screen.Advanced.passSwitch(timerEnabled)
-                )
+                val intent = Intent(context, GuessAdvancedActivity::class.java)
+                intent.putExtra("switch", timerEnabled)
+                context.startActivity(intent)
             }) {
                 Text(text = stringResource(id = R.string.advanced_level))
             }

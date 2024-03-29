@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.github.emlano.countryguesser.ui.Home
 import com.github.emlano.countryguesser.ui.theme.CountryGuesserTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GuesserApp()
+                    Home()
                 }
             }
         }
@@ -34,6 +35,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun PreviewApp() {
     CountryGuesserTheme {
-        GuesserApp()
+        Home()
     }
 }

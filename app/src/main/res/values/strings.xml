@@ -23,4 +23,10 @@
     <string name="second_flag">2nd flag</string>
     <string name="third_flag">3rd flag</string>
     <string name="of">of</string>
+    <string name="advanced_mode">Advanced Mode</string>
+    <string name="enter_country_name">Enter country name</string>
+    <string name="title_activity_country">CountryActivity</string>
+    <string name="title_activity_guess_advanced">GuessAdvancedActivity</string>
+    <string name="title_activity_guess_flag">GuessFlagActivity</string>
+    <string name="title_activity_guess_hints">GuessHintsActivity</string>
 </resources>

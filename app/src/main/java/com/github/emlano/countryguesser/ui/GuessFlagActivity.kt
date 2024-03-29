@@ -1,5 +1,8 @@
 package com.github.emlano.countryguesser.ui
 
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,12 +29,31 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.github.emlano.countryguesser.R
 import com.github.emlano.countryguesser.Result
 import com.github.emlano.countryguesser.getFlagIdFromCountryCode
 import com.github.emlano.countryguesser.readJsonAsset
+import com.github.emlano.countryguesser.ui.theme.CountryGuesserTheme
+
+class GuessFlagActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            CountryGuesserTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    GuessFlag(switch = false)
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun GuessFlag(switch: Boolean, modifier: Modifier = Modifier) {
@@ -143,5 +166,13 @@ fun formatAnswerString(flagIndex: Int): Int {
         0 -> R.string.first_flag
         1 -> R.string.second_flag
         else -> R.string.third_flag
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview3() {
+    CountryGuesserTheme {
+        GuessFlag(switch = false)
     }
 }

@@ -1,5 +1,8 @@
 package com.github.emlano.countryguesser.ui
 
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,11 +29,30 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.emlano.countryguesser.R
 import com.github.emlano.countryguesser.Result
 import com.github.emlano.countryguesser.getFlagIdFromCountryCode
 import com.github.emlano.countryguesser.readJsonAsset
+import com.github.emlano.countryguesser.ui.theme.CountryGuesserTheme
+
+class GuessCountryActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            CountryGuesserTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    GuessCountry(switch = false)
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
@@ -96,5 +119,13 @@ fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
             isAnswerCorrect = Result.Ongoing
             selectedCountry = 0
         })
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    CountryGuesserTheme {
+        GuessCountry(switch = false)
     }
 }

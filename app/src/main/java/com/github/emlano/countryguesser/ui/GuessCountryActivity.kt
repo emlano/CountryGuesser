@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -93,17 +94,19 @@ fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
         ) {
             LazyColumn(
                 modifier = modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.SpaceBetween
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.Start
             ) {
                 items(countryList.size) {
                     Row(
                         modifier = modifier
-                            .padding(start = 10.dp)
+                            .fillMaxWidth()
                             .clickable { selectedCountry = it },
-                        horizontalArrangement = Arrangement.Center,
+                        horizontalArrangement = Arrangement.Start,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         RadioButton(
+                            modifier = modifier.padding(start = 10.dp),
                             selected = it == selectedCountry,
                             onClick = { selectedCountry = it }
                         )

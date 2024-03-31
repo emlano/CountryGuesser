@@ -3,6 +3,7 @@ package com.github.emlano.countryguesser.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,10 +11,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.twotone.Check
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -105,46 +115,76 @@ fun GuessFlag(switch: Boolean, modifier: Modifier = Modifier) {
                 modifier = modifier
             ) {
                 item {
-                    FlagHero(
-                        resource = getFlagIdFromCountryCode(countryList[0]),
-                        clickable = true,
-                        onClick = {
-                            if (result != Result.Ongoing) return@FlagHero
-                            result = if (correctCountryIndex == 0) {
-                                Result.Correct
-                            } else Result.Wrong
-                        },
-                        modifier = modifier,
-                    )
-                    FlagHero(
-                        resource = getFlagIdFromCountryCode(countryList[1]),
-                        clickable = true,
-                        onClick = {
-                            if (result != Result.Ongoing) return@FlagHero
-                            result = if (correctCountryIndex == 1) {
-                                Result.Correct
-                            } else Result.Wrong
-                        },
-                        modifier = modifier,
-                    )
-                    FlagHero(
-                        resource = getFlagIdFromCountryCode(countryList[2]),
-                        clickable = true,
-                        onClick = {
-                            if (result != Result.Ongoing) return@FlagHero
-                            result = if (correctCountryIndex == 2) {
-                                Result.Correct
-                            } else Result.Wrong
-                        },
-                        modifier = modifier,
-                    )
+                    Box(
+                        contentAlignment = Alignment.Center
+                    ) {
+                        FlagHero(
+                            resource = getFlagIdFromCountryCode(countryList[0]),
+                            clickable = true,
+                            onClick = {
+                                if (result != Result.Ongoing) return@FlagHero
+                                result = if (correctCountryIndex == 0) {
+                                    Result.Correct
+                                } else Result.Wrong
+                            },
+                            modifier = modifier,
+                        )
+
+                        if (result == Result.Wrong && correctCountryIndex == 0) {
+                            CorrectFlagIndicator(modifier = modifier)
+                        }
+                    }
+                }
+
+                item {
+                    Box(
+                        contentAlignment = Alignment.Center
+                    ) {
+                        FlagHero(
+                            resource = getFlagIdFromCountryCode(countryList[1]),
+                            clickable = true,
+                            onClick = {
+                                if (result != Result.Ongoing) return@FlagHero
+                                result = if (correctCountryIndex == 1) {
+                                    Result.Correct
+                                } else Result.Wrong
+                            },
+                            modifier = modifier,
+                        )
+
+                        if (result == Result.Wrong && correctCountryIndex == 1) {
+                            CorrectFlagIndicator(modifier = modifier)
+                        }
+                    }
+                }
+
+                item {
+                    Box(
+                        contentAlignment = Alignment.Center
+                    ) {
+                        FlagHero(
+                            resource = getFlagIdFromCountryCode(countryList[2]),
+                            clickable = true,
+                            onClick = {
+                                if (result != Result.Ongoing) return@FlagHero
+                                result = if (correctCountryIndex == 2) {
+                                    Result.Correct
+                                } else Result.Wrong
+                            },
+                            modifier = modifier,
+                        )
+
+                        if (result == Result.Wrong && correctCountryIndex == 2) {
+                            CorrectFlagIndicator(modifier = modifier)
+                        }
+                    }
                 }
             }
         }
+
         ResultText(
             result = result,
-            modifier = modifier,
-            answer = stringResource(id = formatAnswerString(countryList.indexOf(randomCountryCode)))
+            modifier = modifier
         )
         if (result != Result.Ongoing) {
             SubmitNextButton(
@@ -173,4 +213,16 @@ fun GreetingPreview3() {
     CountryGuesserTheme {
         GuessFlag(switch = false)
     }
+}
+
+@Composable
+fun CorrectFlagIndicator(modifier: Modifier = Modifier) {
+    Icon(
+        imageVector = Icons.Filled.CheckCircle,
+        contentDescription = "result indicator",
+        tint = MaterialTheme.colorScheme.surface,
+        modifier = modifier
+            .background(color = MaterialTheme.colorScheme.onError, shape = CircleShape)
+            .size(60.dp)
+    )
 }

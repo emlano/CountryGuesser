@@ -1,18 +1,6 @@
 package com.github.emlano.countryguesser
 
 import android.content.Context
-import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.github.emlano.countryguesser.ui.GuessAdvanced
-import com.github.emlano.countryguesser.ui.GuessCountry
-import com.github.emlano.countryguesser.ui.GuessFlag
-import com.github.emlano.countryguesser.ui.GuessHints
-import com.github.emlano.countryguesser.ui.Home
 import org.json.JSONObject
 
 

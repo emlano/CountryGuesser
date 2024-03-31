@@ -15,9 +15,9 @@ Create an application which requests the user to guess an country based on a fla
 ## Requirements
 - [x] **[Home](#home-page)** Page.
 - [x] **[Guess the Country](#country-page)** Page.
-- [ ] **[Guess-Hints](#hints-page)** Page.
-- [ ] **[Guess the Flag](#flag-page)** Page.
-- [ ] **[Advanced Level](#advanced-page)** Page.
+- [x] **[Guess-Hints](#hints-page)** Page.
+- [x] **[Guess the Flag](#flag-page)** Page.
+- [x] **[Advanced Level](#advanced-page)** Page.
 - [ ] **[Switch](#switch-button)** Button.
 
 ## Instructions

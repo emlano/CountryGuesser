@@ -95,7 +95,7 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
                     FlagNameDisplay(
                         modifier = modifier,
                         value = firstAnswer,
-                        enabled = isFirstAnswerCorrect != Result.Correct,
+                        enabled = isFirstAnswerCorrect != Result.Correct && finalResult == Result.Ongoing,
                         isError = isFirstAnswerCorrect == Result.Wrong,
                         flag = getFlagIdFromCountryCode(countryList[0]),
                         onChange = { value ->
@@ -113,7 +113,7 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
                     FlagNameDisplay(
                         modifier = modifier,
                         value = secondAnswer,
-                        enabled = isSecondAnswerCorrect != Result.Correct,
+                        enabled = isSecondAnswerCorrect != Result.Correct && finalResult == Result.Ongoing,
                         isError = isSecondAnswerCorrect == Result.Wrong,
                         flag = getFlagIdFromCountryCode(countryList[1]),
                         onChange = { value ->
@@ -131,7 +131,7 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
                     FlagNameDisplay(
                         modifier = modifier,
                         value = thirdAnswer,
-                        enabled = isThirdAnswerCorrect != Result.Correct,
+                        enabled = isThirdAnswerCorrect != Result.Correct && finalResult == Result.Ongoing,
                         isError = isThirdAnswerCorrect == Result.Wrong,
                         flag = getFlagIdFromCountryCode(countryList[2]),
                         onChange = { value ->
@@ -200,6 +200,11 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
 
 @Composable
 fun FlagNameDisplay(value: String, flag: Int, enabled: Boolean, isError: Boolean, answer: String = "", onChange: (String) -> Unit, modifier: Modifier = Modifier) {
+    val disabledTextFieldColor = when (isError) {
+        true -> MaterialTheme.colorScheme.error
+        false -> MaterialTheme.colorScheme.onError
+    }
+
     Column(
         modifier = modifier
             .width(350.dp)
@@ -221,9 +226,10 @@ fun FlagNameDisplay(value: String, flag: Int, enabled: Boolean, isError: Boolean
             enabled = enabled,
             isError = isError,
             colors = TextFieldDefaults.colors(
-                disabledTextColor = MaterialTheme.colorScheme.onError,
-                disabledIndicatorColor = MaterialTheme.colorScheme.onError,
-                errorTextColor = MaterialTheme.colorScheme.error
+                disabledTextColor = disabledTextFieldColor,
+                disabledLabelColor = disabledTextFieldColor,
+                disabledIndicatorColor = disabledTextFieldColor,
+                errorTextColor = MaterialTheme.colorScheme.error,
             ),
             onValueChange = onChange
         )

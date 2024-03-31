@@ -117,7 +117,8 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
                 textStyle = TextStyle(
                     textAlign = TextAlign.Center,
                     fontSize = 18.sp
-                )
+                ),
+                enabled = isGuessCorrect == Result.Ongoing
             )
         }
         ResultText(result = isGuessCorrect, answer = randomCountryName, modifier = modifier)

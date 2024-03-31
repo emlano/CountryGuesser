@@ -19,9 +19,9 @@
     <string name="good_guess">Good guess!</string>
     <string name="bad_guess">Bad guess!</string>
     <string name="enter_letter">Enter a letter</string>
-    <string name="first_flag">1st flag</string>
-    <string name="second_flag">2nd flag</string>
-    <string name="third_flag">3rd flag</string>
+    <string name="first_flag">the 1st flag</string>
+    <string name="second_flag">the 2nd flag</string>
+    <string name="third_flag">the 3rd flag</string>
     <string name="of">of</string>
     <string name="advanced_mode">Advanced Mode</string>
     <string name="enter_country_name">Enter country name</string>

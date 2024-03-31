@@ -63,10 +63,9 @@ fun GuessFlag(switch: Boolean, modifier: Modifier = Modifier) {
     var countryList by rememberSaveable { mutableStateOf(List(3) { _ -> countries.keys.random() }) }
 
     var randomCountryCode by rememberSaveable { mutableStateOf(countryList.random()) }
-    var randomCountryName = countries.getValue(randomCountryCode)
-    var randomCountryFlag = getFlagIdFromCountryCode(randomCountryCode)
+    val randomCountryName = countries.getValue(randomCountryCode)
 
-    var correctCountryIndex = countryList.indexOf(randomCountryCode)
+    val correctCountryIndex = countryList.indexOf(randomCountryCode)
     var result by rememberSaveable { mutableStateOf(Result.Ongoing) }
 
     Column(
@@ -83,7 +82,6 @@ fun GuessFlag(switch: Boolean, modifier: Modifier = Modifier) {
             color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center,
-            fontStyle = FontStyle.Italic,
             modifier = modifier.padding(bottom = 20.dp)
         )
         Text(
@@ -96,7 +94,7 @@ fun GuessFlag(switch: Boolean, modifier: Modifier = Modifier) {
         )
         Box(
             modifier = modifier
-                .height(200.dp)
+                .height(250.dp)
                 .border(
                     width = 2.dp,
                     color = MaterialTheme.colorScheme.primary,

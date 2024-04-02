@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -19,7 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,14 +37,14 @@ import kotlinx.coroutines.delay
 @Composable
 fun FlagHero(
     resource: Int,
+    modifier: Modifier = Modifier,
     clickable: Boolean = false,
-    onClick: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onClick: () -> Unit = {}
 ) {
     Box(
+        contentAlignment = Alignment.Center,
         modifier = modifier
-            .padding(40.dp)
-            .safeContentPadding()
+            .padding(30.dp)
     ) {
         Image(
             painter = painterResource(id = resource),
@@ -75,7 +74,7 @@ fun HeaderText(text: Int, modifier: Modifier = Modifier) {
         color = MaterialTheme.colorScheme.primary,
         fontSize = 26.sp,
         softWrap = true,
-        modifier = modifier.padding(20.dp)
+        modifier = modifier.padding(10.dp)
     )
 }
 
@@ -154,9 +153,9 @@ fun SubmitNextButton(
 }
 
 @Composable
-fun CountDownTimer(result: Result, modifier: Modifier = Modifier) {
-    var timeNow by remember { mutableIntStateOf(10) }
-    var isPaused by remember { mutableStateOf(false) }
+fun CountDownTimer(result: Result, modifier: Modifier = Modifier, onEnd: () -> Unit) {
+    var timeNow by rememberSaveable { mutableIntStateOf(10) }
+    var isPaused by rememberSaveable { mutableStateOf(false) }
 
     if (result != Result.Ongoing) isPaused = true
 
@@ -165,12 +164,18 @@ fun CountDownTimer(result: Result, modifier: Modifier = Modifier) {
         isPaused = false
     }
 
-    LaunchedEffect(key1 = timeNow) {
+    LaunchedEffect(key1 = timeNow, key2 = result) {
         if (timeNow > 0 && !isPaused) {
             delay(1000L)
             timeNow--
+        } else {
+            onEnd()
         }
     }
+
+    val timerColor = if (isPaused && timeNow == 0) {
+        MaterialTheme.colorScheme.error
+    } else MaterialTheme.colorScheme.primary
     
     Row(
         modifier = modifier
@@ -182,17 +187,18 @@ fun CountDownTimer(result: Result, modifier: Modifier = Modifier) {
                 .border(
                     width = 3.dp,
                     shape = RoundedCornerShape(10.dp),
-                    color = MaterialTheme.colorScheme.primary
+                    color = timerColor
                 ),
             contentAlignment = Alignment.CenterStart
         ) {
             Text(
                 modifier = modifier.padding(10.dp),
-                text = stringResource(id = R.string.timer_label).replace("\$timeLeft", timeNow.toString()),
+                text = stringResource(id = R.string.timer_label)
+                    .replace("\$timeLeft", timeNow.toString()),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Medium,
-                fontSize = 20.sp,
-                color = MaterialTheme.colorScheme.primary
+                fontSize = 16.sp,
+                color = timerColor
             )
         }
     }

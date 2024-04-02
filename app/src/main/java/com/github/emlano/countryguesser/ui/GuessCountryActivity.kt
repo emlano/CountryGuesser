@@ -1,5 +1,6 @@
 package com.github.emlano.countryguesser.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -48,7 +49,7 @@ class GuessCountryActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GuessCountry(switch = false)
+                    GuessCountry(switch = intent.getBooleanExtra("switch", false))
                 }
             }
         }
@@ -76,10 +77,13 @@ fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        CountDownTimer(
-            result = isAnswerCorrect,
-            modifier = modifier
-        )
+        if (switch) {
+            CountDownTimer(
+                result = isAnswerCorrect,
+                modifier = modifier,
+                onEnd = { isAnswerCorrect = submit(countryList, selectedCountry, randomCountryName) }
+            )
+        }
         HeaderText(text = R.string.guess_which_country)
         FlagHero(randomCountryFlag)
         Box(
@@ -120,11 +124,7 @@ fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
         }
         ResultText(result = isAnswerCorrect, answer = randomCountryName)
         SubmitNextButton(result = isAnswerCorrect, onClickSubmit = {
-            isAnswerCorrect = if (countryList[selectedCountry] == randomCountryName) {
-                Result.Correct
-            } else {
-                Result.Wrong
-            }
+            isAnswerCorrect = submit(countryList, selectedCountry, randomCountryName)
         }, onClickNext = {
             randomCountryCode = countries.keys.random()
             isAnswerCorrect = Result.Ongoing
@@ -138,5 +138,13 @@ fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
 fun GreetingPreview() {
     CountryGuesserTheme {
         GuessCountry(switch = false)
+    }
+}
+
+fun submit(countryList: List<String>, selectedCountry: Int, randomCountryName: String): Result {
+    return if (countryList[selectedCountry] == randomCountryName) {
+        Result.Correct
+    } else {
+        Result.Wrong
     }
 }

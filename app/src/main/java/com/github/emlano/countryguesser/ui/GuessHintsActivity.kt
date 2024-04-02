@@ -48,7 +48,7 @@ class GuessHintsActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GuessHints(switch = false)
+                    GuessHints(switch = intent.getBooleanExtra("switch", false))
                 }
             }
         }
@@ -68,7 +68,6 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
     var guessedName by rememberSaveable { mutableStateOf(makeDisplayString(randomCountryName)) }
     var attempts by rememberSaveable { mutableIntStateOf(3) }
 
-    var isCharacterInName by rememberSaveable { mutableStateOf(Result.Ongoing) }
     var isGuessCorrect by rememberSaveable { mutableStateOf(Result.Ongoing) }
 
     Column(
@@ -78,6 +77,23 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
+        if (switch) {
+            CountDownTimer(
+                modifier = modifier,
+                result = isGuessCorrect,
+                onEnd = {
+                    if (inputCharacter.isNotBlank() && randomCountryName.contains(inputCharacter, ignoreCase = true)) {
+                        guessedName = updateDisplayString(randomCountryName, inputCharacter, guessedName)
+                    } else {
+                        attempts--
+                    }
+                    inputCharacter = ""
+
+                    if (!guessedName.contains("_")) isGuessCorrect = Result.Correct
+                    else if (attempts == 0) isGuessCorrect = Result.Wrong
+                }
+            )
+        }
         HeaderText(text = R.string.guess_which_country, modifier)
         FlagHero(resource = randomCountryFlag, modifier = modifier)
         Box(
@@ -111,7 +127,6 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
                         inputCharacter = it
                     }
 
-                    isCharacterInName = Result.Ongoing
                 },
                 label = { Text(text = stringResource(id = R.string.enter_letter)) },
                 textStyle = TextStyle(
@@ -125,16 +140,8 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
         SubmitNextButton(
             result = isGuessCorrect,
             onClickSubmit = {
-                isCharacterInName = Result.Wrong
                 if (randomCountryName.contains(inputCharacter, ignoreCase = true)) {
-                    randomCountryName.forEachIndexed { index, c ->
-                        if (c.toString().lowercase() == inputCharacter.lowercase()) {
-                            val tempString = guessedName.toMutableList()
-                            tempString[index] = c
-                            guessedName = tempString.joinToString("")
-                            isCharacterInName = Result.Correct
-                        }
-                    }
+                    guessedName = updateDisplayString(randomCountryName, inputCharacter, guessedName)
                 } else {
                     attempts--
                 }
@@ -142,10 +149,10 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
 
                 if (!guessedName.contains("_")) isGuessCorrect = Result.Correct
                 else if (attempts == 0) isGuessCorrect = Result.Wrong
+
             },
             onClickNext = {
                 isGuessCorrect = Result.Ongoing
-                isCharacterInName = Result.Ongoing
                 attempts = 3
                 randomCountryCode = countries.keys.random()
                 randomCountryName = countries.getValue(randomCountryCode)
@@ -173,4 +180,20 @@ fun GreetingPreview2() {
     CountryGuesserTheme {
         GuessHints(switch = false)
     }
+}
+
+fun updateDisplayString(
+    randomCountryName: String,
+    inputCharacter: String,
+    guessedName: String
+): String {
+    val tempString = guessedName.toMutableList()
+
+    randomCountryName.forEachIndexed { index, c ->
+        if (c.toString().lowercase() == inputCharacter.lowercase()) {
+            tempString[index] = c
+        }
+    }
+
+    return tempString.joinToString("")
 }

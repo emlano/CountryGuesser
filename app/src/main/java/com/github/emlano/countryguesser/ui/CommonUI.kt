@@ -18,6 +18,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import com.github.emlano.countryguesser.R
 import com.github.emlano.countryguesser.Result
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun FlagHero(
@@ -165,12 +168,12 @@ fun CountDownTimer(result: Result, modifier: Modifier = Modifier, onEnd: () -> U
     }
 
     LaunchedEffect(key1 = timeNow, key2 = result) {
-        if (timeNow > 0 && !isPaused) {
+        if (timeNow > 1 && !isPaused) {
             delay(1000L)
             timeNow--
-        } else {
-            onEnd()
-        }
+        } else if (timeNow == 1) {
+            timeNow = 10
+        } else onEnd()
     }
 
     val timerColor = if (isPaused && timeNow == 0) {

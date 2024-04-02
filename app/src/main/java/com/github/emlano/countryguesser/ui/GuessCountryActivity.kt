@@ -81,7 +81,13 @@ fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
             CountDownTimer(
                 result = isAnswerCorrect,
                 modifier = modifier,
-                onEnd = { isAnswerCorrect = submit(countryList, selectedCountry, randomCountryName) }
+                onEnd = {
+                    isAnswerCorrect = checkAnswer(
+                        countryList,
+                        selectedCountry,
+                        randomCountryName
+                    )
+                }
             )
         }
         HeaderText(text = R.string.guess_which_country)
@@ -124,7 +130,11 @@ fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
         }
         ResultText(result = isAnswerCorrect, answer = randomCountryName)
         SubmitNextButton(result = isAnswerCorrect, onClickSubmit = {
-            isAnswerCorrect = submit(countryList, selectedCountry, randomCountryName)
+            isAnswerCorrect = checkAnswer(
+                countryList,
+                selectedCountry,
+                randomCountryName
+            )
         }, onClickNext = {
             randomCountryCode = countries.keys.random()
             isAnswerCorrect = Result.Ongoing
@@ -141,7 +151,7 @@ fun GreetingPreview() {
     }
 }
 
-fun submit(countryList: List<String>, selectedCountry: Int, randomCountryName: String): Result {
+fun checkAnswer(countryList: List<String>, selectedCountry: Int, randomCountryName: String): Result {
     return if (countryList[selectedCountry] == randomCountryName) {
         Result.Correct
     } else {

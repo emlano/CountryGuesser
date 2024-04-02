@@ -84,6 +84,8 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
 
     Column(
         modifier = modifier.verticalScroll(state),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row(
             modifier = modifier
@@ -102,7 +104,8 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
             ) {
                 Text(
                     modifier = modifier.padding(10.dp),
-                    text = "Score: $gamesWon",
+                    text = stringResource(id = R.string.score)
+                        .replace("\$points", gamesWon.toString()),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.primary,
@@ -110,150 +113,144 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
             }
         }
 
-        Column(
-            modifier = modifier,
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
+        HeaderText(text = R.string.advanced_mode)
+        Box(
+            modifier = modifier
         ) {
-            HeaderText(text = R.string.advanced_mode)
-            Box(
-                modifier = modifier
+            LazyRow(
+                modifier = modifier,
+                contentPadding = PaddingValues(25.dp),
+                horizontalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                LazyRow(
-                    modifier = modifier,
-                    contentPadding = PaddingValues(25.dp),
-                    horizontalArrangement = Arrangement.spacedBy(20.dp)
-                ) {
-                    item {
-                        FlagNameDisplay(
-                            modifier = modifier,
-                            value = firstAnswer,
-                            enabled = isFirstAnswerCorrect != Result.Correct && finalResult == Result.Ongoing,
-                            isError = isFirstAnswerCorrect == Result.Wrong,
-                            flag = getFlagIdFromCountryCode(countryList[0]),
-                            onChange = { value ->
-                                firstAnswer = value
-                                isFirstAnswerCorrect = Result.Ongoing
-                            },
-                            answer = if (
-                                finalResult == Result.Wrong &&
-                                isFirstAnswerCorrect == Result.Wrong
-                            ) {
-                                countryNameList[0]
-                            } else {
-                                ""
-                            }
-                        )
-                    }
+                item {
+                    FlagNameDisplay(
+                        modifier = modifier,
+                        value = firstAnswer,
+                        enabled = isFirstAnswerCorrect != Result.Correct && finalResult == Result.Ongoing,
+                        isError = isFirstAnswerCorrect == Result.Wrong,
+                        flag = getFlagIdFromCountryCode(countryList[0]),
+                        onChange = { value ->
+                            firstAnswer = value
+                            isFirstAnswerCorrect = Result.Ongoing
+                        },
+                        answer = if (
+                            finalResult == Result.Wrong &&
+                            isFirstAnswerCorrect == Result.Wrong
+                        ) {
+                            countryNameList[0]
+                        } else {
+                            ""
+                        }
+                    )
+                }
 
-                    item {
-                        FlagNameDisplay(
-                            modifier = modifier,
-                            value = secondAnswer,
-                            enabled = isSecondAnswerCorrect != Result.Correct && finalResult == Result.Ongoing,
-                            isError = isSecondAnswerCorrect == Result.Wrong,
-                            flag = getFlagIdFromCountryCode(countryList[1]),
-                            onChange = { value ->
-                                secondAnswer = value
-                                isSecondAnswerCorrect = Result.Ongoing
-                            },
-                            answer = if (
-                                finalResult == Result.Wrong &&
-                                isSecondAnswerCorrect == Result.Wrong
-                            ) {
-                                countryNameList[1]
-                            } else {
-                                ""
-                            }
-                        )
-                    }
+                item {
+                    FlagNameDisplay(
+                        modifier = modifier,
+                        value = secondAnswer,
+                        enabled = isSecondAnswerCorrect != Result.Correct && finalResult == Result.Ongoing,
+                        isError = isSecondAnswerCorrect == Result.Wrong,
+                        flag = getFlagIdFromCountryCode(countryList[1]),
+                        onChange = { value ->
+                            secondAnswer = value
+                            isSecondAnswerCorrect = Result.Ongoing
+                        },
+                        answer = if (
+                            finalResult == Result.Wrong &&
+                            isSecondAnswerCorrect == Result.Wrong
+                        ) {
+                            countryNameList[1]
+                        } else {
+                            ""
+                        }
+                    )
+                }
 
-                    item {
-                        FlagNameDisplay(
-                            modifier = modifier,
-                            value = thirdAnswer,
-                            enabled = isThirdAnswerCorrect != Result.Correct && finalResult == Result.Ongoing,
-                            isError = isThirdAnswerCorrect == Result.Wrong,
-                            flag = getFlagIdFromCountryCode(countryList[2]),
-                            onChange = { value ->
-                                thirdAnswer = value
-                                isThirdAnswerCorrect = Result.Ongoing
-                            },
-                            answer = if (
-                                finalResult == Result.Wrong &&
-                                isThirdAnswerCorrect == Result.Wrong
-                            ) {
-                                countryNameList[2]
-                            } else {
-                                ""
-                            }
-                        )
-                    }
+                item {
+                    FlagNameDisplay(
+                        modifier = modifier,
+                        value = thirdAnswer,
+                        enabled = isThirdAnswerCorrect != Result.Correct && finalResult == Result.Ongoing,
+                        isError = isThirdAnswerCorrect == Result.Wrong,
+                        flag = getFlagIdFromCountryCode(countryList[2]),
+                        onChange = { value ->
+                            thirdAnswer = value
+                            isThirdAnswerCorrect = Result.Ongoing
+                        },
+                        answer = if (
+                            finalResult == Result.Wrong &&
+                            isThirdAnswerCorrect == Result.Wrong
+                        ) {
+                            countryNameList[2]
+                        } else {
+                            ""
+                        }
+                    )
                 }
             }
-            ResultText(result = finalResult)
-            SubmitNextButton(
-                result = finalResult,
-                onClickSubmit = {
-                    if (firstAnswer.trim().equals(countryNameList[0], ignoreCase = true)) {
-                        isFirstAnswerCorrect = Result.Correct
-
-                    } else {
-                        isFirstAnswerCorrect = Result.Wrong
-
-                    }
-
-                    if (secondAnswer.trim().equals(countryNameList[1], ignoreCase = true)) {
-                        isSecondAnswerCorrect = Result.Correct
-
-                    } else {
-                        isSecondAnswerCorrect = Result.Wrong
-                    }
-
-                    if (thirdAnswer.trim().equals(countryNameList[2], ignoreCase = true)) {
-                        isThirdAnswerCorrect = Result.Correct
-
-                    } else {
-                        isThirdAnswerCorrect = Result.Wrong
-                    }
-
-                    if (
-                        isFirstAnswerCorrect == Result.Correct &&
-                        isSecondAnswerCorrect == Result.Correct &&
-                        isThirdAnswerCorrect == Result.Correct
-                    ) {
-                        finalResult = Result.Correct
-                        gamesWon += 3
-
-                    } else if (chances == 0) {
-                        finalResult = Result.Wrong
-                        if (isFirstAnswerCorrect == Result.Correct) gamesWon++
-                        if (isSecondAnswerCorrect == Result.Correct) gamesWon++
-                        if (isThirdAnswerCorrect == Result.Correct) gamesWon++
-                    }
-
-                    else chances--
-                },
-                onClickNext = {
-                    countryList = List(3) { _ -> countries.keys.random() }
-                    countryNameList = List(3) { countries.getValue(countryList[it]) }
-                    firstAnswer = ""
-                    secondAnswer = ""
-                    thirdAnswer = ""
-
-                    isFirstAnswerCorrect = Result.Ongoing
-                    isSecondAnswerCorrect = Result.Ongoing
-                    isThirdAnswerCorrect = Result.Ongoing
-
-                    chances = 2
-                    finalResult = Result.Ongoing
-                })
         }
+        ResultText(result = finalResult)
+        SubmitNextButton(
+            result = finalResult,
+            onClickSubmit = {
+                if (firstAnswer.trim().equals(countryNameList[0], ignoreCase = true)) {
+                    isFirstAnswerCorrect = Result.Correct
+
+                } else {
+                    isFirstAnswerCorrect = Result.Wrong
+
+                }
+
+                if (secondAnswer.trim().equals(countryNameList[1], ignoreCase = true)) {
+                    isSecondAnswerCorrect = Result.Correct
+
+                } else {
+                    isSecondAnswerCorrect = Result.Wrong
+                }
+
+                if (thirdAnswer.trim().equals(countryNameList[2], ignoreCase = true)) {
+                    isThirdAnswerCorrect = Result.Correct
+
+                } else {
+                    isThirdAnswerCorrect = Result.Wrong
+                }
+
+                if (
+                    isFirstAnswerCorrect == Result.Correct &&
+                    isSecondAnswerCorrect == Result.Correct &&
+                    isThirdAnswerCorrect == Result.Correct
+                ) {
+                    finalResult = Result.Correct
+                    gamesWon += 3
+
+                } else if (chances == 0) {
+                    finalResult = Result.Wrong
+                    if (isFirstAnswerCorrect == Result.Correct) gamesWon++
+                    if (isSecondAnswerCorrect == Result.Correct) gamesWon++
+                    if (isThirdAnswerCorrect == Result.Correct) gamesWon++
+                }
+
+                else chances--
+            },
+            onClickNext = {
+                countryList = List(3) { _ -> countries.keys.random() }
+                countryNameList = List(3) { countries.getValue(countryList[it]) }
+                firstAnswer = ""
+                secondAnswer = ""
+                thirdAnswer = ""
+
+                isFirstAnswerCorrect = Result.Ongoing
+                isSecondAnswerCorrect = Result.Ongoing
+                isThirdAnswerCorrect = Result.Ongoing
+
+                chances = 2
+                finalResult = Result.Ongoing
+            })
     }
 }
 
 @Composable
-fun FlagNameDisplay(value: String, flag: Int, enabled: Boolean, isError: Boolean, answer: String = "", onChange: (String) -> Unit, modifier: Modifier = Modifier) {
+fun FlagNameDisplay(value: String, flag: Int, enabled: Boolean, isError: Boolean, modifier: Modifier = Modifier,answer: String = "", onChange: (String) -> Unit) {
     val disabledTextFieldColor = when (isError) {
         true -> MaterialTheme.colorScheme.error
         false -> MaterialTheme.colorScheme.onError

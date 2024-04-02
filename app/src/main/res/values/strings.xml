@@ -29,4 +29,6 @@
     <string name="title_activity_guess_advanced">GuessAdvancedActivity</string>
     <string name="title_activity_guess_flag">GuessFlagActivity</string>
     <string name="title_activity_guess_hints">GuessHintsActivity</string>
+    <string name="score">Score: $points</string>
+    <string name="timer_label">Time Left: $timeLeft</string>
 </resources>

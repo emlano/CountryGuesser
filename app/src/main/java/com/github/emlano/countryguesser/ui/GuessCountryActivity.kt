@@ -76,6 +76,10 @@ fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        CountDownTimer(
+            result = isAnswerCorrect,
+            modifier = modifier
+        )
         HeaderText(text = R.string.guess_which_country)
         FlagHero(randomCountryFlag)
         Box(

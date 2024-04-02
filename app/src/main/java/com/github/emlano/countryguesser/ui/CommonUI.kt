@@ -156,7 +156,7 @@ fun SubmitNextButton(
 }
 
 @Composable
-fun CountDownTimer(result: Result, modifier: Modifier = Modifier, onEnd: () -> Unit) {
+fun CountDownTimer(result: Result, modifier: Modifier = Modifier, restart: Boolean = false, onEnd: () -> Unit) {
     var timeNow by rememberSaveable { mutableIntStateOf(10) }
     var isPaused by rememberSaveable { mutableStateOf(false) }
 
@@ -167,13 +167,15 @@ fun CountDownTimer(result: Result, modifier: Modifier = Modifier, onEnd: () -> U
         isPaused = false
     }
 
-    LaunchedEffect(key1 = timeNow, key2 = result) {
-        if (timeNow > 1 && !isPaused) {
+    LaunchedEffect(key1 = timeNow, key2 = result, key3 = restart) {
+        if (timeNow > 0 && !isPaused) {
             delay(1000L)
             timeNow--
-        } else if (timeNow == 1) {
+        } else if (timeNow == 0 && restart) {
             timeNow = 10
-        } else onEnd()
+        }
+
+        if (timeNow == 0 && !isPaused) onEnd()
     }
 
     val timerColor = if (isPaused && timeNow == 0) {

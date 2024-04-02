@@ -53,7 +53,7 @@ class GuessFlagActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GuessFlag(switch = false)
+                    GuessFlag(switch = intent.getBooleanExtra("switch", false))
                 }
             }
         }
@@ -80,6 +80,15 @@ fun GuessFlag(switch: Boolean, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        if (switch) {
+            CountDownTimer(
+                modifier = modifier,
+                result = result,
+                onEnd = {
+                    result = Result.Wrong
+                }
+            )
+        }
         HeaderText(text = R.string.guess_which_flag)
         Text(
             text = stringResource(id = R.string.of),

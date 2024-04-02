@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -81,8 +82,9 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
             CountDownTimer(
                 modifier = modifier,
                 result = isGuessCorrect,
+                restart = attempts > 0,
                 onEnd = {
-                    if (inputCharacter.isNotBlank() && randomCountryName.contains(inputCharacter, ignoreCase = true)) {
+                    if (inputCharacter.isNotEmpty() && randomCountryName.contains(inputCharacter, ignoreCase = true)) {
                         guessedName = updateDisplayString(randomCountryName, inputCharacter, guessedName)
                     } else {
                         attempts--
@@ -149,7 +151,6 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
 
                 if (!guessedName.contains("_")) isGuessCorrect = Result.Correct
                 else if (attempts == 0) isGuessCorrect = Result.Wrong
-
             },
             onClickNext = {
                 isGuessCorrect = Result.Ongoing

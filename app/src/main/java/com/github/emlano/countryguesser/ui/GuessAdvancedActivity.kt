@@ -67,7 +67,13 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
 
     val countries = readJsonAsset(LocalContext.current)
     var countryList by rememberSaveable { mutableStateOf(List(3) { _ -> countries.keys.random() }) }
-    var countryNameList by rememberSaveable { mutableStateOf(List(3) { countries.getValue(countryList[it]) }) }
+    var countryNameList by rememberSaveable {
+        mutableStateOf(List(3) {
+            countries.getValue(
+                countryList[it]
+            )
+        })
+    }
 
     var firstAnswer by rememberSaveable { mutableStateOf("") }
     var secondAnswer by rememberSaveable { mutableStateOf("") }
@@ -115,8 +121,11 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
         if (switch) {
             CountDownTimer(
                 modifier = modifier,
+                // Pass game state into the timer to stop it or pause it
                 result = finalResult,
+                // To repeat the timer on multiple attempts
                 restart = chances > 0,
+                // OnEnd executes a lambda after count down ends
                 onEnd = {
                     isFirstAnswerCorrect = checkAnswer(firstAnswer, countryNameList[0])
                     isSecondAnswerCorrect = checkAnswer(secondAnswer, countryNameList[1])
@@ -135,9 +144,7 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
                             isSecondAnswerCorrect,
                             isThirdAnswerCorrect
                         )
-                    }
-
-                    else chances--
+                    } else chances--
                 }
             )
         }
@@ -238,9 +245,7 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
                         isSecondAnswerCorrect,
                         isThirdAnswerCorrect
                     )
-                }
-
-                else chances--
+                } else chances--
             },
             onClickNext = {
                 countryList = List(3) { _ -> countries.keys.random() }
@@ -260,7 +265,16 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun FlagNameDisplay(value: String, flag: Int, enabled: Boolean, isError: Boolean, modifier: Modifier = Modifier,answer: String = "", onChange: (String) -> Unit) {
+fun FlagNameDisplay(
+    value: String,
+    flag: Int,
+    enabled: Boolean,
+    isError: Boolean,
+    modifier: Modifier = Modifier,
+    answer: String = "",
+    onChange: (String) -> Unit
+) {
+    // Change colors depending on the answer given
     val disabledTextFieldColor = when (isError) {
         true -> MaterialTheme.colorScheme.error
         false -> MaterialTheme.colorScheme.onError

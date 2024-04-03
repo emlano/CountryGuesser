@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -84,8 +83,13 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
                 result = isGuessCorrect,
                 restart = attempts > 0,
                 onEnd = {
-                    if (inputCharacter.isNotEmpty() && randomCountryName.contains(inputCharacter, ignoreCase = true)) {
-                        guessedName = updateDisplayString(randomCountryName, inputCharacter, guessedName)
+                    if (inputCharacter.isNotEmpty() && randomCountryName.contains(
+                            inputCharacter,
+                            ignoreCase = true
+                        )
+                    ) {
+                        guessedName =
+                            updateDisplayString(randomCountryName, inputCharacter, guessedName)
                     } else {
                         attempts--
                     }
@@ -143,7 +147,8 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
             result = isGuessCorrect,
             onClickSubmit = {
                 if (randomCountryName.contains(inputCharacter, ignoreCase = true)) {
-                    guessedName = updateDisplayString(randomCountryName, inputCharacter, guessedName)
+                    guessedName =
+                        updateDisplayString(randomCountryName, inputCharacter, guessedName)
                 } else {
                     attempts--
                 }
@@ -164,6 +169,7 @@ fun GuessHints(switch: Boolean, modifier: Modifier = Modifier) {
     }
 }
 
+// Add the spaces and underscores into the displayed string
 fun makeDisplayString(countryName: String): String {
     return countryName
         .toList()
@@ -183,6 +189,8 @@ fun GreetingPreview2() {
     }
 }
 
+// When a char in name was guessed correctly
+// replace the display string char positions with that char
 fun updateDisplayString(
     randomCountryName: String,
     inputCharacter: String,

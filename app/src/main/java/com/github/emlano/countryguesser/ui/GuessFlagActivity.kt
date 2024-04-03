@@ -203,14 +203,6 @@ fun GuessFlag(switch: Boolean, modifier: Modifier = Modifier) {
     }
 }
 
-fun formatAnswerString(flagIndex: Int): Int {
-    return when (flagIndex) {
-        0 -> R.string.first_flag
-        1 -> R.string.second_flag
-        else -> R.string.third_flag
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview3() {
@@ -219,6 +211,7 @@ fun GreetingPreview3() {
     }
 }
 
+// Puts a check icon on the correct flag to indicate to the user
 @Composable
 fun CorrectFlagIndicator(modifier: Modifier = Modifier) {
     Icon(

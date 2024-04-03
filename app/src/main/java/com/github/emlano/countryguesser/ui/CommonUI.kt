@@ -18,8 +18,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -35,8 +33,8 @@ import androidx.compose.ui.unit.sp
 import com.github.emlano.countryguesser.R
 import com.github.emlano.countryguesser.Result
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
+// Container for flag drawables
 @Composable
 fun FlagHero(
     resource: Int,
@@ -100,6 +98,7 @@ fun ResultText(result: Result, modifier: Modifier = Modifier, answer: String = "
         Result.Ongoing -> MaterialTheme.colorScheme.surface
     }
 
+    // To only show result text when game has ended
     if (result != Result.Ongoing) {
         Column(
             modifier.padding(top = 25.dp),
@@ -113,6 +112,7 @@ fun ResultText(result: Result, modifier: Modifier = Modifier, answer: String = "
                 fontWeight = FontWeight.Bold,
             )
 
+            // Only show correct answer if answer was passed in
             if (result == Result.Wrong && answer.isNotEmpty()) {
                 Text(
                     text = formattedAnswer,
@@ -132,6 +132,7 @@ fun SubmitNextButton(
     onClickNext: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // Change button label and behaviour depending on game state
     val buttonString = when (result) {
         Result.Ongoing -> stringResource(id = R.string.submit)
         else -> stringResource(id = R.string.next)
@@ -156,12 +157,19 @@ fun SubmitNextButton(
 }
 
 @Composable
-fun CountDownTimer(result: Result, modifier: Modifier = Modifier, restart: Boolean = false, onEnd: () -> Unit) {
+fun CountDownTimer(
+    result: Result,
+    modifier: Modifier = Modifier,
+    restart: Boolean = false,
+    onEnd: () -> Unit
+) {
     var timeNow by rememberSaveable { mutableIntStateOf(10) }
     var isPaused by rememberSaveable { mutableStateOf(false) }
 
+    // Pause timer when game has finished
     if (result != Result.Ongoing) isPaused = true
 
+    // Restart timer when game begins again
     if (isPaused && result == Result.Ongoing) {
         timeNow = 10
         isPaused = false
@@ -171,6 +179,7 @@ fun CountDownTimer(result: Result, modifier: Modifier = Modifier, restart: Boole
         if (timeNow > 0 && !isPaused) {
             delay(1000L)
             timeNow--
+            // Handle use cases where multiple submissions are required
         } else if (timeNow == 0 && restart) {
             timeNow = 10
         }
@@ -178,10 +187,11 @@ fun CountDownTimer(result: Result, modifier: Modifier = Modifier, restart: Boole
         if (timeNow == 0 && !isPaused) onEnd()
     }
 
+    // Change timer color if it runs out
     val timerColor = if (isPaused && timeNow == 0) {
         MaterialTheme.colorScheme.error
     } else MaterialTheme.colorScheme.primary
-    
+
     Row(
         modifier = modifier
             .fillMaxWidth()

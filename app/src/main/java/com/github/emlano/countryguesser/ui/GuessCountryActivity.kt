@@ -1,6 +1,5 @@
 package com.github.emlano.countryguesser.ui
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -104,6 +103,7 @@ fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
                 .padding(start = 75.dp, end = 10.dp),
             contentAlignment = Alignment.Center
         ) {
+            // Lazy column used to make the scrollable list more performance friendly
             LazyColumn(
                 modifier = modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.SpaceBetween,
@@ -113,6 +113,8 @@ fun GuessCountry(switch: Boolean, modifier: Modifier = Modifier) {
                     Row(
                         modifier = modifier
                             .fillMaxWidth()
+                            // Entire row made clickable to allow players to select a country
+                            // easily
                             .clickable { selectedCountry = it },
                         horizontalArrangement = Arrangement.Start,
                         verticalAlignment = Alignment.CenterVertically
@@ -151,7 +153,11 @@ fun GreetingPreview() {
     }
 }
 
-fun checkAnswer(countryList: List<String>, selectedCountry: Int, randomCountryName: String): Result {
+fun checkAnswer(
+    countryList: List<String>,
+    selectedCountry: Int,
+    randomCountryName: String
+): Result {
     return if (countryList[selectedCountry] == randomCountryName) {
         Result.Correct
     } else {

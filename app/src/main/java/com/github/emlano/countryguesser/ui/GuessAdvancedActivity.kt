@@ -54,7 +54,7 @@ class GuessAdvancedActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GuessAdvanced(switch = false)
+                    GuessAdvanced(switch = intent.getBooleanExtra("switch", false))
                 }
             }
         }
@@ -77,7 +77,7 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
     var isSecondAnswerCorrect by rememberSaveable { mutableStateOf(Result.Ongoing) }
     var isThirdAnswerCorrect by rememberSaveable { mutableStateOf(Result.Ongoing) }
 
-    var chances by rememberSaveable { mutableIntStateOf(2) }
+    var chances by rememberSaveable { mutableIntStateOf(3) }
     var finalResult by rememberSaveable { mutableStateOf(Result.Ongoing) }
 
     var gamesWon by rememberSaveable { mutableIntStateOf(0) }
@@ -112,7 +112,35 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
                 )
             }
         }
+        if (switch) {
+            CountDownTimer(
+                modifier = modifier,
+                result = finalResult,
+                restart = chances > 0,
+                onEnd = {
+                    isFirstAnswerCorrect = checkAnswer(firstAnswer, countryNameList[0])
+                    isSecondAnswerCorrect = checkAnswer(secondAnswer, countryNameList[1])
+                    isThirdAnswerCorrect = checkAnswer(thirdAnswer, countryNameList[2])
 
+                    val resultCalculation = checkFinalResult(
+                        isFirstAnswerCorrect,
+                        isSecondAnswerCorrect,
+                        isThirdAnswerCorrect
+                    )
+
+                    if (chances == 0 || resultCalculation == Result.Correct) {
+                        finalResult = resultCalculation
+                        gamesWon += getWinCount(
+                            isFirstAnswerCorrect,
+                            isSecondAnswerCorrect,
+                            isThirdAnswerCorrect
+                        )
+                    }
+
+                    else chances--
+                }
+            )
+        }
         HeaderText(text = R.string.advanced_mode)
         Box(
             modifier = modifier
@@ -193,41 +221,23 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
         SubmitNextButton(
             result = finalResult,
             onClickSubmit = {
-                if (firstAnswer.trim().equals(countryNameList[0], ignoreCase = true)) {
-                    isFirstAnswerCorrect = Result.Correct
+                isFirstAnswerCorrect = checkAnswer(firstAnswer, countryNameList[0])
+                isSecondAnswerCorrect = checkAnswer(secondAnswer, countryNameList[1])
+                isThirdAnswerCorrect = checkAnswer(thirdAnswer, countryNameList[2])
 
-                } else {
-                    isFirstAnswerCorrect = Result.Wrong
+                val resultCalculation = checkFinalResult(
+                    isFirstAnswerCorrect,
+                    isSecondAnswerCorrect,
+                    isThirdAnswerCorrect
+                )
 
-                }
-
-                if (secondAnswer.trim().equals(countryNameList[1], ignoreCase = true)) {
-                    isSecondAnswerCorrect = Result.Correct
-
-                } else {
-                    isSecondAnswerCorrect = Result.Wrong
-                }
-
-                if (thirdAnswer.trim().equals(countryNameList[2], ignoreCase = true)) {
-                    isThirdAnswerCorrect = Result.Correct
-
-                } else {
-                    isThirdAnswerCorrect = Result.Wrong
-                }
-
-                if (
-                    isFirstAnswerCorrect == Result.Correct &&
-                    isSecondAnswerCorrect == Result.Correct &&
-                    isThirdAnswerCorrect == Result.Correct
-                ) {
-                    finalResult = Result.Correct
-                    gamesWon += 3
-
-                } else if (chances == 0) {
-                    finalResult = Result.Wrong
-                    if (isFirstAnswerCorrect == Result.Correct) gamesWon++
-                    if (isSecondAnswerCorrect == Result.Correct) gamesWon++
-                    if (isThirdAnswerCorrect == Result.Correct) gamesWon++
+                if (chances == 1 || resultCalculation == Result.Correct) {
+                    finalResult = resultCalculation
+                    gamesWon += getWinCount(
+                        isFirstAnswerCorrect,
+                        isSecondAnswerCorrect,
+                        isThirdAnswerCorrect
+                    )
                 }
 
                 else chances--
@@ -243,7 +253,7 @@ fun GuessAdvanced(switch: Boolean, modifier: Modifier = Modifier) {
                 isSecondAnswerCorrect = Result.Ongoing
                 isThirdAnswerCorrect = Result.Ongoing
 
-                chances = 2
+                chances = 3
                 finalResult = Result.Ongoing
             })
     }
@@ -303,4 +313,16 @@ fun GreetingPreview4() {
     CountryGuesserTheme {
         GuessAdvanced(switch = false)
     }
+}
+
+fun checkAnswer(answer: String, actual: String): Result {
+    return if (answer.trim().equals(actual, ignoreCase = true)) Result.Correct else Result.Wrong
+}
+
+fun checkFinalResult(vararg args: Result): Result {
+    return if (args.any { it != Result.Correct }) Result.Wrong else Result.Correct
+}
+
+fun getWinCount(vararg args: Result): Int {
+    return args.count { it == Result.Correct }
 }
